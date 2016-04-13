@@ -80,6 +80,7 @@ main(void)
 		x = y;
 		pthread_mutex_unlock(&lock);
 		pthread_cond_signal(&data_ready);
+		printf("%d is ready \n", x);
 	}
 
 	pthread_mutex_lock(&lock);
