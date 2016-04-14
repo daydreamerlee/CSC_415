@@ -1,0 +1,141 @@
+2 producers, each produce 32 items.
+4 consumers, each consume 16 items.
+#0 producer is producing 0! bufferlength is 1 
+#0 producer is producing 1! bufferlength is 2 
+#0 producer is producing 2! bufferlength is 3 
+#0 producer is producing 3! bufferlength is 4 
+#0 producer is producing 4! bufferlength is 5 
+#0 producer is producing 5! bufferlength is 6 
+#0 producer is producing 6! bufferlength is 7 
+#0 producer is producing 7! bufferlength is 8 
+#0 producer is producing 8! bufferlength is 9 
+#0 producer is producing 9! bufferlength is 10 
+#0 producer is producing 10! bufferlength is 11 
+#0 producer is producing 11! bufferlength is 12 
+#0 producer is producing 12! bufferlength is 13 
+#0 producer is producing 13! bufferlength is 14 
+#0 producer is producing 14! bufferlength is 15 
+#0 producer is producing 15! bufferlength is 16 
+#0 consumer is consuming 0! bufferlength is 15 
+#0 consumer is consuming 1! bufferlength is 14 
+#0 consumer is consuming 2! bufferlength is 13 
+#0 consumer is consuming 3! bufferlength is 12 
+#0 consumer is consuming 4! bufferlength is 11 
+#0 consumer is consuming 5! bufferlength is 10 
+#0 consumer is consuming 6! bufferlength is 9 
+#0 consumer is consuming 7! bufferlength is 8 
+#0 consumer is consuming 8! bufferlength is 7 
+#0 consumer is consuming 9! bufferlength is 6 
+#0 consumer is consuming 10! bufferlength is 5 
+#0 consumer is consuming 11! bufferlength is 4 
+#0 consumer is consuming 12! bufferlength is 3 
+#0 consumer is consuming 13! bufferlength is 2 
+#0 consumer is consuming 14! bufferlength is 1 
+#0 consumer is consuming 15! bufferlength is 0 
+#0 consumer done!
+
+#1 producer is producing 32! bufferlength is 1 
+#1 producer is producing 33! bufferlength is 2 
+#1 producer is producing 34! bufferlength is 3 
+#1 producer is producing 35! bufferlength is 4 
+#1 producer is producing 36! bufferlength is 5 
+#1 producer is producing 37! bufferlength is 6 
+#1 producer is producing 38! bufferlength is 7 
+#1 producer is producing 39! bufferlength is 8 
+#1 producer is producing 40! bufferlength is 9 
+#1 producer is producing 41! bufferlength is 10 
+#1 producer is producing 42! bufferlength is 11 
+#1 producer is producing 43! bufferlength is 12 
+#1 producer is producing 44! bufferlength is 13 
+#1 producer is producing 45! bufferlength is 14 
+#1 producer is producing 46! bufferlength is 15 
+#1 producer is producing 47! bufferlength is 16 
+#1 consumer is consuming 32! bufferlength is 15 
+#1 consumer is consuming 33! bufferlength is 14 
+#1 consumer is consuming 34! bufferlength is 13 
+#1 consumer is consuming 35! bufferlength is 12 
+#1 consumer is consuming 36! bufferlength is 11 
+#1 consumer is consuming 37! bufferlength is 10 
+#1 consumer is consuming 38! bufferlength is 9 
+#1 consumer is consuming 39! bufferlength is 8 
+#1 consumer is consuming 40! bufferlength is 7 
+#1 consumer is consuming 41! bufferlength is 6 
+#1 consumer is consuming 42! bufferlength is 5 
+#1 consumer is consuming 43! bufferlength is 4 
+#1 consumer is consuming 44! bufferlength is 3 
+#1 consumer is consuming 45! bufferlength is 2 
+#1 consumer is consuming 46! bufferlength is 1 
+#1 consumer is consuming 47! bufferlength is 0 
+#1 consumer done!
+
+#1 producer is producing 48! bufferlength is 1 
+#1 producer is producing 49! bufferlength is 2 
+#1 producer is producing 50! bufferlength is 3 
+#1 producer is producing 51! bufferlength is 4 
+#1 producer is producing 52! bufferlength is 5 
+#1 producer is producing 53! bufferlength is 6 
+#1 producer is producing 54! bufferlength is 7 
+#1 producer is producing 55! bufferlength is 8 
+#1 producer is producing 56! bufferlength is 9 
+#1 producer is producing 57! bufferlength is 10 
+#1 producer is producing 58! bufferlength is 11 
+#1 producer is producing 59! bufferlength is 12 
+#1 producer is producing 60! bufferlength is 13 
+#1 producer is producing 61! bufferlength is 14 
+#1 producer is producing 62! bufferlength is 15 
+#1 producer is producing 63! bufferlength is 16 
+
+#2 consumer is consuming 48! bufferlength is 15 
+#2 consumer is consuming 49! bufferlength is 14 
+#2 consumer is consuming 50! bufferlength is 13 
+#2 consumer is consuming 51! bufferlength is 12 
+#2 consumer is consuming 52! bufferlength is 11 
+#2 consumer is consuming 53! bufferlength is 10 
+#2 consumer is consuming 54! bufferlength is 9 
+#2 consumer is consuming 55! bufferlength is 8 
+#2 consumer is consuming 56! bufferlength is 7 
+#2 consumer is consuming 57! bufferlength is 6 
+#2 consumer is consuming 58! bufferlength is 5 
+#2 consumer is consuming 59! bufferlength is 4 
+#2 consumer is consuming 60! bufferlength is 3 
+#2 consumer is consuming 61! bufferlength is 2 
+#2 consumer is consuming 62! bufferlength is 1 
+#2 consumer is consuming 63! bufferlength is 0 
+#2 consumer done!
+
+#0 producer is producing 16! bufferlength is 1 
+#0 producer is producing 17! bufferlength is 2 
+#0 producer is producing 18! bufferlength is 3 
+#0 producer is producing 19! bufferlength is 4 
+#0 producer is producing 20! bufferlength is 5 
+#0 producer is producing 21! bufferlength is 6 
+#0 producer is producing 22! bufferlength is 7 
+#0 producer is producing 23! bufferlength is 8 
+#0 producer is producing 24! bufferlength is 9 
+#0 producer is producing 25! bufferlength is 10 
+#0 producer is producing 26! bufferlength is 11 
+#0 producer is producing 27! bufferlength is 12 
+#0 producer is producing 28! bufferlength is 13 
+#0 producer is producing 29! bufferlength is 14 
+#0 producer is producing 30! bufferlength is 15 
+#0 producer is producing 31! bufferlength is 16 
+
+#3 consumer is consuming 16! bufferlength is 15 
+#3 consumer is consuming 17! bufferlength is 14 
+#3 consumer is consuming 18! bufferlength is 13 
+#3 consumer is consuming 19! bufferlength is 12 
+#3 consumer is consuming 20! bufferlength is 11 
+#3 consumer is consuming 21! bufferlength is 10 
+#3 consumer is consuming 22! bufferlength is 9 
+#3 consumer is consuming 23! bufferlength is 8 
+#3 consumer is consuming 24! bufferlength is 7 
+#3 consumer is consuming 25! bufferlength is 6 
+#3 consumer is consuming 26! bufferlength is 5 
+#3 consumer is consuming 27! bufferlength is 4 
+#3 consumer is consuming 28! bufferlength is 3 
+#3 consumer is consuming 29! bufferlength is 2 
+#3 consumer is consuming 30! bufferlength is 1 
+#3 consumer is consuming 31! bufferlength is 0 
+#3 consumer done!
+
+Program finished! 

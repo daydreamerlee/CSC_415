@@ -42,15 +42,15 @@ void *produce (void* pd)
 			pthread_cond_wait(&ready_to_write, &lock); // wait on lenght >= Buffersize
 
 		buffer[(head_index + actual_length)%BUFFER_SIZE]= id*capacity + count;  
-		printf("#%d producer is producing %d ", id, id*capacity + count);  
+		printf("#%d producer is producing %d! ", id, id*capacity + count);  
 		count++;
 		actual_length++;
-		printf("Count is #%d, length is %d \n", count, actual_length);  
+		printf("bufferlength is %d \n", actual_length);  
 
 		pthread_mutex_unlock(&lock);
 		pthread_cond_signal(&ready_to_read);
 	}
-
+	printf("\n");
 	return (NULL);
 }
 
@@ -67,11 +67,11 @@ void *consume (void* cm)
 		while (actual_length <= 0)
 			pthread_cond_wait(&ready_to_read, &lock); // wait on lenght >= Buffersize
 
-		printf("#%d consumer is consuming %d\n", id, buffer[head_index]);  
-		
+		printf("#%d consumer is consuming %d! ", id, buffer[head_index]);  
 		count++;
 		actual_length--;
 		head_index=(head_index+1) % BUFFER_SIZE;
+		printf("bufferlength is %d \n", actual_length);  
 
 		pthread_mutex_unlock(&lock);
 		pthread_cond_signal(&ready_to_write);
@@ -104,6 +104,9 @@ int main(int argc, char const *argv[])
 	num_consumers = pow(2, argv2);
 	num_items = pow(2,argv3);
 
+	printf("%d producers, each produce %d items.\n", num_producers,num_items);
+	printf("%d consumers, each consume %d items.\n", num_consumers,num_items * num_producers / num_consumers);
+
 	producer_thread = (pthread_t *) malloc(num_producers * sizeof(pthread_t));
 	consumer_thread = (pthread_t *) malloc(num_consumers * sizeof(pthread_t));
 	producer_info = (producers*) malloc(num_producers * sizeof(producers));
@@ -128,7 +131,7 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < num_producers; ++i)
 	{
 		producer_info[i].producer_id = i;
-		producer_info[i].producer_capability = num_items / num_producers;
+		producer_info[i].producer_capability = num_items;
 		error = pthread_create(&producer_thread[i], NULL, produce, &producer_info[i]);
 		if (error) {
 			errno = error;
@@ -138,7 +141,7 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < num_consumers; ++i)
 	{
 		consumer_info[i].consumer_id = i;
-		consumer_info[i].consumer_capability = num_items / num_consumers;
+		consumer_info[i].consumer_capability = num_items * num_producers / num_consumers;
 		error = pthread_create(&consumer_thread[i], NULL, consume, &consumer_info[i]);
 		if (error) {
 			errno = error;
