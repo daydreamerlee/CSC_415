@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 #define BUFFER_SIZE 1024
-#define ARGV_NUM_LIMIT 4
+#define COMMAND_LENGTH 15
 #define READ_ERROR 1
 #define Empty_Input 2
 #define LARGER_THAN_BUFFER_INPUT 3
@@ -36,11 +36,10 @@ void lcsh(){
 	int total_index, special_index;
 	char command_input[BUFFER_SIZE]; // User input Commands
 	char* special_cmd;
-	char** commands = NULL; // parsed command and arguments
-	char** cmd_firstpart = NULL;
-	char** cmd_secondpart = NULL;
+	char* commands[COMMAND_LENGTH]; // parsed command and arguments
+	char* cmd_firstpart[COMMAND_LENGTH];
+	char* cmd_secondpart[COMMAND_LENGTH];
 
-	commands = malloc (1 * sizeof (char*));
 	while(1)
 	{
 		/*Prompt_ And_ Input*/
@@ -65,14 +64,11 @@ void lcsh(){
 
 		/*Save the first part and second part of the cmd, splitting at the position of special index*/
 		if(special_index!=0){
-				cmd_firstpart = malloc ((special_index+1) * sizeof (char*));
-				cmd_secondpart = malloc ((total_index+1 - special_index) * sizeof (char*));
 				copyArray(commands, cmd_firstpart, 0, special_index);
 				copyArray(commands, cmd_secondpart, special_index+1, total_index - special_index);
 				cmd_firstpart[special_index]=NULL;
 				cmd_secondpart[total_index - special_index]=NULL;
 				printf("%s %s\n",commands[special_index], commands[special_index+1]); // for debug
-				
 		}
 
 
@@ -112,17 +108,11 @@ void lcsh(){
 					perror("Exec Failed");
 					exit(1);
 				}
-			free (cmd_firstpart); // inaccessible?
 		}
 
 		wait(&process_status);
-
-		if(special_index!=0){
-			free (cmd_firstpart);
-			free (cmd_secondpart);
-		}
 	}
-	free (commands);	
+
 	printf("Shell teminated!\n");
 	return;
 }
