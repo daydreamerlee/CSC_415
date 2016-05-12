@@ -30,10 +30,11 @@ int main(int argc, char const *argv[])
 }
 
 void lcsh(){
-	pid_t pid;
-	int process_status;
-	int input_status;
+	pid_t pid, pid1, pid2;
+	int process_status, input_status;
 	int total_index, special_index;
+	int fd;
+	int pipd_fd[2];
 	char command_input[BUFFER_SIZE]; // User input Commands
 	char* special_cmd;
 	char* commands[COMMAND_LENGTH]; // parsed command and arguments
@@ -60,19 +61,19 @@ void lcsh(){
 		/*Parse the arguments*/
 		special_index = parse(command_input,commands, &total_index);
 		special_cmd = commands [special_index];
-		printf("%d %d %s\n",total_index, special_index,special_cmd); // for debug
+		// printf("%d %d %s\n",total_index, special_index,special_cmd); // for debug
 
 		/*Save the first part and second part of the cmd, splitting at the position of special index*/
 		if(special_index!=0){
 				copyArray(commands, cmd_firstpart, 0, special_index);
-				copyArray(commands, cmd_secondpart, special_index+1, total_index - special_index);
 				cmd_firstpart[special_index]=NULL;
-				cmd_secondpart[total_index - special_index]=NULL;
-				printf("%s %s\n",commands[special_index], commands[special_index+1]); // for debug
+				if (strcmp(special_cmd,"&")!=0)
+				{
+					copyArray(commands, cmd_secondpart, special_index+1, total_index - special_index -1 );
+					cmd_secondpart[total_index - special_index-1]=NULL; // note that cmd_secondpart[total - special ] also = null
+					// printf("%s %s\n",cmd_secondpart[0], cmd_secondpart[total_index - special_index-2]); // for debug
+				}
 		}
-
-
-
 
 		/*Execute commands*/
 		if ((strcmp((command_input),"quit")==0) || (strcmp((command_input),"exit")==0))
@@ -81,38 +82,160 @@ void lcsh(){
 		}
 	
 		/*Fork and Exec*/	
-		pid = fork();
-		if(pid <0)
-		{
-			perror("Fork Failed:");
-			exit(1);
-		}
-
-		if(pid == 0)
-		{
-			
-			if(strcmp(special_cmd,"&")==0){
-
-			}else if(strcmp(special_cmd,">")==0){
-
-			}else if(strcmp(special_cmd,"<")==0){
-
-			}else if(strcmp(special_cmd,">>")==0){
-
-			}else if(strcmp(special_cmd,"|")==0){
-
+		if(special_index == 0){
+			/*Normal*/
+			pid = fork();
+			if(pid <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
 			}
-
-			if(execvp(commands[0],commands)!=0)
+			if(pid == 0)
+			{
+				if(execvp(commands[0],commands)!=0)
 				{
 					perror("Exec Failed");
 					exit(1);
 				}
+			}
+			wait(&process_status);
+		}else if(strcmp(special_cmd,">")==0){
+			/*Redirect output and error*/
+			fd = open (cmd_secondpart[0], O_CREAT|O_TRUNC|O_WRONLY, 0644);
+			pid = fork();
+			if(pid <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid == 0)
+			{
+				dup2(fd,1);
+				dup2(fd,2);
+				close(fd); // redirect STDOUT & STDERR to fd file then close fd
+				if(execvp(cmd_firstpart[0],cmd_firstpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}
+			wait(&process_status);
+			close(fd);
+		}else if (strcmp(special_cmd,"<")==0){
+			/*Redirect input*/
+			fd = open (cmd_secondpart[0], O_RDONLY);
+			if (fd < 0)
+			{
+				/* code */
+				perror("Open file failed");
+				continue;
+			}
+			pid = fork();
+			if(pid <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid == 0)
+			{
+				dup2(fd,0);
+				close(fd); // redirect STDOUT & STDERR to fd file then close fd
+				if(execvp(cmd_firstpart[0],cmd_firstpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}
+			wait(&process_status);
+			close(fd);
+
+		}else if (strcmp(special_cmd,">>") == 0){
+			/*Redirect and append*/
+			fd = open (cmd_secondpart[0], O_CREAT|O_APPEND|O_WRONLY, 0644);
+			pid = fork();
+			if(pid <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid == 0)
+			{
+				dup2(fd,1);
+				dup2(fd,2);
+				close(fd); // redirect STDOUT & STDERR to fd file then close fd
+				if(execvp(cmd_firstpart[0],cmd_firstpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}
+			wait(&process_status);
+			close(fd);
+		}else if (strcmp(special_cmd,"&") == 0){
+			/*background*/
+			pid = fork();
+			if(pid <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid == 0)
+			{	
+				if(execvp(cmd_firstpart[0],cmd_firstpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}
+		}else if (strcmp(special_cmd,"|") == 0){
+			/*pipd*/
+			if(pipe(pipd_fd) < 0){
+				perror("Pipe failed");
+				exit(1);
+			}
+
+			pid2 = fork();
+			if(pid2 <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid2 == 0)
+			{	
+				close(pipd_fd[1]);
+				dup2(pipd_fd[0],0);
+				close(pipd_fd[0]);	
+				if(execvp(cmd_secondpart[0],cmd_secondpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}
+
+			pid1 = fork();
+			if(pid1 <0)
+			{
+				perror("Fork Failed:");
+				exit(1);
+			}
+			if(pid1 == 0)
+			{	
+				close(pipd_fd[0]);
+				dup2(pipd_fd[1],1);
+				close(pipd_fd[1]);
+				if(execvp(cmd_firstpart[0],cmd_firstpart)!=0)
+				{
+					perror("Exec Failed");
+					exit(1);
+				}
+			}	
+			close(pipd_fd[0]);
+			close(pipd_fd[1]);
+			wait(NULL);
+			wait(NULL);
 		}
 
-		wait(&process_status);
 	}
-
 	printf("Shell teminated!\n");
 	return;
 }
@@ -136,7 +259,6 @@ int parse(char* inputline, char ** parsed_cmds, int* total_index){
 	char* cmd;
 	cmd = strtok(inputline,DELIMITER);
 	while (cmd != NULL){
-		parsed_cmds = realloc (parsed_cmds,(args+2) * sizeof(char*));
 		parsed_cmds[args] = cmd;
 		if(strcmp(cmd,">")==0 || strcmp(cmd,"<")==0 
 				|| strcmp(cmd,"|")==0 || strcmp(cmd,"&")==0

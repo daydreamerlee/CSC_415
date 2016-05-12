@@ -1,0 +1,6 @@
+a.txt
+run
+SimpleShell.c
+a.txt
+run
+SimpleShell.c

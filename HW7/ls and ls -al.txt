@@ -1,0 +1,21 @@
+a.txt
+b~
+Disk
+lcsh
+lcsh_2.c
+lcsh.c
+makefile
+makefile~
+Test_Xiaoyu
+total 56
+drwxrwxr-x  3 cheng cheng  4096 May 12 13:34 .
+drwxrwxr-x 11 cheng cheng  4096 May  9 20:21 ..
+-rw-r--r--  1 cheng cheng    66 May 12 13:34 a.txt
+-rw-rw-r--  1 cheng cheng     0 May 12 11:09 b~
+-rw-rw-r--  1 cheng cheng    26 May 12 11:10 Disk
+-rwxrwxr-x  1 cheng cheng 12340 May 12 13:21 lcsh
+-rw-rw-r--  1 cheng cheng  5910 May 12 13:01 lcsh_2.c
+-rw-rw-r--  1 cheng cheng  2142 May  9 20:23 lcsh.c
+-rw-rw-r--  1 cheng cheng   118 May 12 13:21 makefile
+-rw-rw-r--  1 cheng cheng   127 May 12 13:20 makefile~
+drwxrwxr-x  2 cheng cheng  4096 May 12 13:28 Test_Xiaoyu
