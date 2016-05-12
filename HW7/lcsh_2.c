@@ -86,7 +86,6 @@ void lcsh(){
 			}
 			if(strcmp(special_cmd,"&")==0){
 
-
 			}else if(strcmp(special_cmd,">")==0){
 
 			}else if(strcmp(special_cmd,"<")==0){
@@ -102,6 +101,7 @@ void lcsh(){
 					perror("Exec Failed");
 					exit(1);
 				}
+			free (cmd_firstpart); // inaccessible?
 		}
 
 		wait(&process_status);
