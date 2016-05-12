@@ -63,6 +63,20 @@ void lcsh(){
 		special_cmd = commands [special_index];
 		printf("%d %d %s\n",total_index, special_index,special_cmd); // for debug
 
+		/*Save the first part and second part of the cmd, splitting at the position of special index*/
+		if(special_index!=0){
+				cmd_firstpart = malloc ((special_index+1) * sizeof (char*));
+				cmd_secondpart = malloc ((total_index+1 - special_index) * sizeof (char*));
+				copyArray(commands, cmd_firstpart, 0, special_index);
+				copyArray(commands, cmd_secondpart, special_index+1, total_index - special_index);
+				cmd_firstpart[special_index]=NULL;
+				cmd_secondpart[total_index - special_index]=NULL;
+				printf("%s %s\n",commands[special_index], commands[special_index+1]); // for debug
+				
+		}
+
+
+
 
 		/*Execute commands*/
 		if ((strcmp((command_input),"quit")==0) || (strcmp((command_input),"exit")==0))
@@ -80,10 +94,7 @@ void lcsh(){
 
 		if(pid == 0)
 		{
-			if(special_index!=0){
-				cmd_firstpart = malloc ((special_index) * sizeof (char*));
-				cmd_secondpart = malloc ((total_index - special_index) * sizeof (char*));
-			}
+			
 			if(strcmp(special_cmd,"&")==0){
 
 
@@ -105,6 +116,11 @@ void lcsh(){
 		}
 
 		wait(&process_status);
+
+		if(special_index!=0){
+			free (cmd_firstpart);
+			free (cmd_secondpart);
+		}
 	}
 	free (commands);	
 	printf("Shell teminated!\n");
@@ -130,7 +146,7 @@ int parse(char* inputline, char ** parsed_cmds, int* total_index){
 	char* cmd;
 	cmd = strtok(inputline,DELIMITER);
 	while (cmd != NULL){
-		parsed_cmds = realloc (parsed_cmds,(args+2) * sizeof(*parsed_cmds));
+		parsed_cmds = realloc (parsed_cmds,(args+2) * sizeof(char*));
 		parsed_cmds[args] = cmd;
 		if(strcmp(cmd,">")==0 || strcmp(cmd,"<")==0 
 				|| strcmp(cmd,"|")==0 || strcmp(cmd,"&")==0
@@ -150,6 +166,6 @@ void copyArray (char** input_array, char** output_array, int begin_index, int le
 	int i;
 	for (i = 0; i < length; ++i)
 	{
-		output_array[i]= input_array[begin_index+i];
+		output_array[i] = input_array[begin_index+i];
 	}
 }
